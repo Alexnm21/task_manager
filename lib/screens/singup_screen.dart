@@ -26,13 +26,13 @@ class SignUpScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomTextField(text: 'Nombre', icon: Icon(Icons.person, color: AppTheme.iconColor,), controller: _nameController),
+                CustomTextField(labelText: 'Nombre', icon: Icon(Icons.person, color: AppTheme.iconColor,), controller: _nameController),
                 const SizedBox(height: inputPadding),
-                CustomTextField(text: 'Correo Electrónico', controller: _emailController, keyboardType: TextInputType.emailAddress, icon: Icon(Icons.alternate_email, color: AppTheme.iconColor,)),
+                CustomTextField(labelText: 'Correo Electrónico', controller: _emailController, keyboardType: TextInputType.emailAddress, icon: Icon(Icons.alternate_email, color: AppTheme.iconColor,)),
                 const SizedBox(height: inputPadding),
-                CustomTextField(text: 'Contraseña', controller: _passwordController, icon: Icon(Icons.lock_outline, color: AppTheme.iconColor,), obscureText: true,),
+                CustomTextField(labelText: 'Contraseña', controller: _passwordController, icon: Icon(Icons.lock_outline, color: AppTheme.iconColor,), obscureText: true,),
                 const SizedBox(height: inputPadding),
-                CustomTextField(text: 'Repetir Contraseña', controller: _confirmPasswordController, icon: Icon(Icons.lock_outline, color: AppTheme.iconColor,), obscureText: true,),
+                CustomTextField(labelText: 'Repetir Contraseña', controller: _confirmPasswordController, icon: Icon(Icons.lock_outline, color: AppTheme.iconColor,), obscureText: true,),
                 const SizedBox(height: 32.0),
 
                 ElevatedButton(

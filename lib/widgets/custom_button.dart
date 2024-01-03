@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/config/app_theme.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
+  final Text text;
   final IconData? icon;
   final Color? color;
   final Gradient? gradient;
@@ -26,18 +26,13 @@ class CustomButton extends StatelessWidget {
         color: color ?? AppTheme.primary,
       ),
       child: TextButton(
-        onPressed: () {
-          // Acción cuando se presiona el botón
-        },
+        onPressed: onPressed,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) Icon(icon, color: Colors.white),
             if (icon != null) const SizedBox(width: 8.0),
-            Text(
-              text,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
+            text
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:task_manager/config/app_theme.dart';
 import 'package:task_manager/config/routes.dart';
 import 'package:task_manager/controllers/controllers.dart';
 import 'package:task_manager/screens/screens.dart';
+import 'package:task_manager/services/user_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,8 +15,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  Get.put(UserController());
+  //CAMBIAR LA PRESISTENCIA PARA QUE LA SESION SE GUARDE INCLUSO CUANDO SE CIERRE LA APP
+  //await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  UserController userCtrl = Get.put(UserController());
+  FirebaseAuth auth = FirebaseAuth.instance;
+  if(auth.currentUser != null){
+    userCtrl.user.value = await UserService().getUserByUid(auth.currentUser!.uid);
+  }
+  
   runApp(const MyApp());
 } 
 
@@ -26,8 +34,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: const LoginScreen(),
-      theme: ThemeData.light(),
+      home: FirebaseAuth.instance.currentUser != null ? const HomeScreen() : const LoginScreen(),
+      theme: ThemeData.dark().copyWith(primaryColor: AppTheme.primary),
       getPages: Routes().routes,
     );
   }

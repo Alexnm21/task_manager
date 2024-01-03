@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/controllers/controllers.dart';
-import 'package:task_manager/services/services.dart';
+import 'package:task_manager/model/model.dart';
 
 
-class LoginService {
+class UserService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final UserController userCtrl = Get.find();
-  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
 
   Future<String> createUser({required String email, required String password, required String name}) async {
     try {
       // Verificar si el correo electrónico ya existe
-      QuerySnapshot existingUsers = await usersCollection.where('email', isEqualTo: email).get();
+      QuerySnapshot existingUsers = await _usersCollection.where('email', isEqualTo: email).get();
       if (existingUsers.docs.isNotEmpty) {
         // El correo electrónico ya está en uso, puedes manejar esto de la manera que desees
         return 'El correo electrónico ya está registrado';
@@ -24,6 +24,8 @@ class LoginService {
         email: email,
         password: password,
       );
+
+      // El usuario se crea con éxito
       User? user = userCredential.user;
 
       if (user == null) {
@@ -31,7 +33,7 @@ class LoginService {
       }
 
       // Guardar información adicional en la colección de usuarios
-      await usersCollection.doc(user.uid).set({
+      await _usersCollection.doc(user.uid).set({
         'email': email,
         'name': name,
         'uid': user.uid
@@ -43,16 +45,24 @@ class LoginService {
     }
   }
 
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
+   Future<UserData?> getUserByUid(String uid) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email,password: password,);
+      // Accede a la colección de usuarios y obtén el documento por el uid
+      DocumentSnapshot userSnapshot = await _usersCollection.doc(uid).get();
 
-      userCtrl.user.value = await UserService().getUserByUid(auth.currentUser!.uid);
-      // Usuario autenticado con éxito
-      return '';
+      // Verifica si el documento existe
+      if (userSnapshot.exists) {
+        // Devuelve los datos del usuario como un mapa
+        Map<String, dynamic> userMap = userSnapshot.data() as Map<String, dynamic>;
+        return UserData.fromMap(userMap);
+      } else {
+        // Si el usuario no existe, devuelve null
+        return null;
+      }
     } catch (e) {
-      // Error durante el inicio de sesión
-      return 'Error durante el inicio de sesión: $e';
+      // Maneja cualquier error que pueda ocurrir durante la operación
+      print('Error al obtener el usuario: $e');
+      return null;
     }
   }
 }
