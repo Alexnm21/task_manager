@@ -7,6 +7,7 @@ class AppTheme {
   static Color secondary = const Color(0xFF560bad);
   static Color inputBackground = const Color.fromRGBO(84, 6, 167, 0.376);
   static Color iconColor = const Color(0xff707277);
+  static Color sideBarBackground = const Color(0xFF17203A);
   
   //ESTILOS DE TEXTO
   static const TextStyle h1Normal = TextStyle(fontSize: 24.0);

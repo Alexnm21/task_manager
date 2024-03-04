@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:task_manager/model/model.dart';
+import 'package:task_manager/domain/entities/model.dart';
 
 class UserController extends GetxController {
-  Rxn<UserData> user = Rxn<UserData>();
+  Rxn<userEntity> user = Rxn<userEntity>();
 }

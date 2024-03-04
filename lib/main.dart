@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:task_manager/config/app_theme.dart';
 import 'package:task_manager/config/routes.dart';
 import 'package:task_manager/controllers/controllers.dart';
-import 'package:task_manager/screens/screens.dart';
-import 'package:task_manager/services/user_service.dart';
+import 'package:task_manager/ui/screens/home/home_screen.dart';
+import 'package:task_manager/data/repositories/user_repository.dart';
+import 'package:task_manager/ui/screens/login/login_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,7 +21,7 @@ void main() async {
   UserController userCtrl = Get.put(UserController());
   FirebaseAuth auth = FirebaseAuth.instance;
   if(auth.currentUser != null){
-    userCtrl.user.value = await UserService().getUserByUid(auth.currentUser!.uid);
+    userCtrl.user.value = await UserRepository().getUserByUid(auth.currentUser!.uid);
   }
   
   runApp(const MyApp());

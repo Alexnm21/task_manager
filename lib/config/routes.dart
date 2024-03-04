@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:task_manager/screens/screens.dart';
-import 'package:task_manager/screens/singup_screen.dart';
+import 'package:task_manager/ui/screens/login/login_screen.dart';
+import 'package:task_manager/ui/screens/singup_screen.dart';
 
 class Routes {
   List<GetPage<dynamic>> routes = [
